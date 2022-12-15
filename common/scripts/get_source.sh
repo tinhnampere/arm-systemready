@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -x
 
 # Copyright (c) 2021-2022, ARM Limited and Contributors. All rights reserved.
 #
@@ -87,10 +88,10 @@ get_bsa_src()
     if [ -z $ARM_BSA_TAG ]; then
         #No TAG is provided. Download the latest code
         echo "Downloading Arm BSA source code."
-        git clone --depth 1 https://github.com/ARM-software/bsa-acs.git ShellPkg/Application/bsa-acs
+        git clone --depth 1 --branch dev https://github.com/tinhnampere/bsa-acs.git ShellPkg/Application/bsa-acs
     else
         echo "Downloading Arm BSA source code. TAG : $ARM_BSA_TAG"
-        git clone --depth 1 --branch $ARM_BSA_TAG https://github.com/ARM-software/bsa-acs.git ShellPkg/Application/bsa-acs
+        git clone --depth 1 --branch $ARM_BSA_TAG https://github.com/tinhnampere/bsa-acs.git ShellPkg/Application/bsa-acs
     fi
     popd
     pushd  $TOP_DIR/edk2/ShellPkg/Application/bsa-acs
@@ -105,10 +106,10 @@ get_sbsa_src()
     if [ -z $ARM_SBSA_TAG ]; then
         #No TAG is provided. Download the latest code
         echo "Downloading Arm SBSA source code."
-        git clone --depth 1 https://github.com/ARM-software/sbsa-acs.git ShellPkg/Application/sbsa-acs
+        git clone --depth 1 --branch dev https://github.com/tinhnampere/sbsa-acs.git ShellPkg/Application/sbsa-acs
     else
         echo "Downloading Arm SBSA source code. TAG : $ARM_SBSA_TAG"
-        git clone --depth 1 --branch $ARM_SBSA_TAG https://github.com/ARM-software/sbsa-acs.git ShellPkg/Application/sbsa-acs
+        git clone --depth 1 --branch $ARM_SBSA_TAG https://github.com/tinhnampere/sbsa-acs.git ShellPkg/Application/sbsa-acs
     fi
     popd
     pushd  $TOP_DIR/edk2/ShellPkg/Application/sbsa-acs
@@ -119,28 +120,29 @@ get_sbsa_src()
 
 get_cross_compiler()
 {
-    if [ $(uname -m) == "aarch64" ]; then
-        echo "=================================================================="
-        echo "aarch64 native build"
-        echo "WARNING: no cross compiler needed, GCC version recommended: ${LINARO_TOOLS_MAJOR_VERSION}"
-        echo "=================================================================="
-    else
-        echo "Downloading TOOLS Linaro cross compiler. Version : ${LINARO_TOOLS_VERSION}"
-        LINARO=https://releases.linaro.org/components/toolchain/binaries
-        VERSION=$LINARO_TOOLS_MAJOR_VERSION
-        if [ $TARGET_ARCH == "arm" ]; then
-            TAG=arm-linux-gnueabihf
-        else
-            TAG=aarch64-linux-gnu
-        fi
-        GCC=${TAG}/gcc-linaro-${LINARO_TOOLS_VERSION}-x86_64_${TAG}.tar.xz
-        mkdir -p tools
-        pushd $TOP_DIR/tools
-        wget $LINARO/$VERSION/$GCC
-        tar -xf gcc-linaro-${LINARO_TOOLS_VERSION}-x86_64_${TAG}.tar.xz
-        rm gcc-linaro-${LINARO_TOOLS_VERSION}-x86_64_${TAG}.tar.xz
-        popd
-    fi
+    echo "by pass cross compiler -> please download your own compiler"
+    # if [ $(uname -m) == "aarch64" ]; then
+    #     echo "=================================================================="
+    #     echo "aarch64 native build"
+    #     echo "WARNING: no cross compiler needed, GCC version recommended: ${LINARO_TOOLS_MAJOR_VERSION}"
+    #     echo "=================================================================="
+    # else
+    #     echo "Downloading TOOLS Linaro cross compiler. Version : ${LINARO_TOOLS_VERSION}"
+    #     LINARO=https://releases.linaro.org/components/toolchain/binaries
+    #     VERSION=$LINARO_TOOLS_MAJOR_VERSION
+    #     if [ $TARGET_ARCH == "arm" ]; then
+    #         TAG=arm-linux-gnueabihf
+    #     else
+    #         TAG=aarch64-linux-gnu
+    #     fi
+    #     GCC=${TAG}/gcc-linaro-${LINARO_TOOLS_VERSION}-x86_64_${TAG}.tar.xz
+    #     mkdir -p tools
+    #     pushd $TOP_DIR/tools
+    #     wget $LINARO/$VERSION/$GCC
+    #     tar -xf gcc-linaro-${LINARO_TOOLS_VERSION}-x86_64_${TAG}.tar.xz
+    #     rm gcc-linaro-${LINARO_TOOLS_VERSION}-x86_64_${TAG}.tar.xz
+    #     popd
+    # fi
 }
 
 get_grub_src()
@@ -163,7 +165,7 @@ get_fwts_src()
 get_sct_src()
 {
     echo "Downloading SCT (edk2-test) source code. TAG : ${SCT_SRC_TAG}"
-    git clone --single-branch https://github.com/tianocore/edk2-test
+    git clone --branch dev https://github.com/tinhnampere/edk2-test.git
     pushd $TOP_DIR/edk2-test
     git checkout $SCT_SRC_TAG
     popd
@@ -174,10 +176,10 @@ get_linux-acs_src()
 {
   if [ -z $ARM_LINUX_ACS_TAG ]; then
       echo "Downloading Arm Linux ACS source code."
-      git clone --depth 1 https://gitlab.arm.com/linux-arm/linux-acs linux-acs
+      git clone --depth 1 --branch dev https://github.com/tinhnampere/linux-acs.git linux-acs
   else
       echo "Downloading Arm Linux ACS source code. TAG : ${ARM_LINUX_ACS_TAG}"
-      git clone --depth 1 --branch ${ARM_LINUX_ACS_TAG} https://gitlab.arm.com/linux-arm/linux-acs linux-acs
+      git clone --depth 1 --branch ${ARM_LINUX_ACS_TAG} https://github.com/tinhnampere/linux-acs.git linux-acs
   fi
 
   if [ $TARGET_ARCH != "arm" ]; then
@@ -193,7 +195,7 @@ get_linux-acs_src()
 get_bbr_acs_src()
 {
     echo "Downloading Arm BBR source code."
-    git clone https://github.com/ARM-software/bbr-acs.git bbr-acs
+    git clone --branch dev https://github.com/tinhnampere/bbr-acs.git bbr-acs
 
     if [ -n "$ARM_BBR_TAG" ]; then
         # TAG provided.

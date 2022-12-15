@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+set -x
 # Copyright (c) 2021, ARM Limited and Contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -59,6 +60,9 @@ init_dir()
 
 create_scripts_link
 init_dir
+
+CORE_COUNT=$(nproc)
+export PARALLELISM=$CORE_COUNT
 
 source ./build-scripts/build-all.sh  SR F
 source ./build-scripts/make_image.sh SR
