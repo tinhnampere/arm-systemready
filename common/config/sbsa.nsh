@@ -62,7 +62,7 @@ for %i in 0 1 2 3 4 5 6 7 8 9 A B C D E F then
                     echo "SBSA ACS is already run"
                     goto Done
                 endif
-                FS%j:\EFI\BOOT\bsa\sbsa\Sbsa.efi -skip 800 -f SbsaTempResults.log
+                FS%j:\EFI\BOOT\bsa\sbsa\Sbsa.efi -p2p -cache -skip 800 -f SbsaTempResults.log
                 if exist FS%i:\acs_results\uefi\SbsaTempResults.log then
                     echo " SystemReady SR ACS v1.1.0" > SbsaResults.log
                     stall 200000

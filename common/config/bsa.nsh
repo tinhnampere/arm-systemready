@@ -47,10 +47,10 @@ for %i in 0 1 2 3 4 5 6 7 8 9 A B C D E F then
                 endif
                 if exist FS%j:\EFI\BOOT\bsa\ir_bsa.flag then
                     #Executing for BSA IR. Execute only OS tests
-                    FS%j:\EFI\BOOT\bsa\Bsa.efi -os -skip 900 -dtb BsaDevTree.dtb -f BsaResults.log
+                     FS%j:\EFI\BOOT\bsa\Bsa.efi -p2p -cache -os -skip 900 -dtb BsaDevTree.dtb -f BsaResults.log
                     reset
                 endif
-                FS%j:\EFI\BOOT\bsa\Bsa.efi -skip 900 -f BsaTempResults.log
+                FS%j:\EFI\BOOT\bsa\Bsa.efi -p2p -cache -skip 900 -f BsaTempResults.log
                 if exist FS%i:\acs_results\uefi\BsaTempResults.log then
                     echo " SystemReady ES ACS v1.1.0" > BsaResults.log
                     stall 200000
